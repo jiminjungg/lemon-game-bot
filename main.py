@@ -1,12 +1,13 @@
 import argparse
 import re
 
-from playwright.sync_api import Page, sync_playwright
+from playwright.sync_api import Locator, Page, sync_playwright
 
 AD_LOAD_TIMEOUT = 5000
 AD_SKIP_TIMEOUT = 32000
 GAME_LOAD_TIMEOUT = 3000
 LEMON_GAME_URL = "https://wwme.kr/lemon/play?mode=normal#goog_rewarded"
+NUM_COLS = 17
 
 
 def skip_ad(page: Page, is_first_skip: bool) -> None:
@@ -22,10 +23,22 @@ def skip_ad(page: Page, is_first_skip: bool) -> None:
     page.get_by_text("확인").click()
 
 
+def crawl_board(page: Page) -> list[list[list[int, bool, Locator]]]:
+    cell_locators = page.locator(".cell").all()
+    return [
+        [
+            [int(c.text_content()), c.get_attribute("data-lemon") == "true", c]
+            for c in cell_locators[i : i + NUM_COLS]
+        ]
+        for i in range(0, len(cell_locators), NUM_COLS)
+    ]
+
+
 def play_lemon_game(page: Page) -> None:
     game_start_child = page.get_by_text(re.compile(r"게임 시작|다시하기"))
     page.get_by_role("button").filter(has=game_start_child).click()
     page.wait_for_timeout(GAME_LOAD_TIMEOUT)
+    board = crawl_board(page)
 
 
 def run_lemon_game_bot(num_games: int) -> None:

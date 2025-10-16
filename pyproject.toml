@@ -1,0 +1,7 @@
+[project]
+name = "lemon-game-bot"
+version = "0.1.0"
+description = "A script that plays Lemon Game through browser automation"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []

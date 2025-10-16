@@ -115,8 +115,10 @@ def play_lemon_game(page: Page) -> None:
     game_start_child = page.get_by_text(re.compile(r"게임 시작|다시하기"))
     page.get_by_role("button").filter(has=game_start_child).click()
     page.wait_for_timeout(GAME_LOAD_TIMEOUT)
-    board = crawl_board(page)
-    apply_solution(board, solve_board(board))
+    final_score_locator = page.get_by_text("최종 점수")
+    while not final_score_locator.is_visible():
+        board = crawl_board(page)
+        apply_solution(board, solve_board(board))
     page.wait_for_timeout(GAME_LOAD_TIMEOUT)
 
 

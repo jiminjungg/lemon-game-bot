@@ -27,9 +27,7 @@ It uses the [Playwright library](https://playwright.dev/python/docs/library) for
 2. Install Chromium through Playwright if Google Chrome is not installed:
 
    ```sh
-   uv sync
-   source .venv/bin/activate
-   playwright install chromium
+   uv run playwright install chromium
    ```
 
 ## Usage

@@ -24,10 +24,10 @@ It uses the [Playwright library](https://playwright.dev/python/docs/library) for
    cd lemon-game-bot
    ```
 
-2. Install Chromium through Playwright if Google Chrome is not installed:
+2. Install Google Chrome through Playwright if not already installed:
 
    ```sh
-   uv run playwright install chromium
+   uv run playwright install chrome
    ```
 
 ## Usage
